@@ -1,5 +1,6 @@
 package org.zerock.edu.ex2.repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.annotation.Commit;
 import org.zerock.edu.ex2.entity.Memo;
 
 import jakarta.transaction.Transactional;
@@ -94,5 +96,50 @@ public class MemoRepositoryTests
 	    System.out.println("first page?: "+result.isFirst()); //시작 페이지(0) 여부 
 
 	}
+	@Test
+	public void testQueryMethods(){
+		List<Memo> list = memoRepository.findByMnoBetweenOrderByMnoDesc(70L, 80L);
+		for(Memo memo : list) {
+			System.out.println(memo);
+		}
+	}
 
+	@Test
+	public void testQueryMethodWithPagable() {
+		Pageable pageable = PageRequest.of(0, 10, Sort.by("mno").descending());
+		Page<Memo> result = memoRepository.findByMnoBetween(10L,50L, pageable);
+		result.get().forEach(memo -> System.out.println(memo));
+	}
+	
+	@Commit
+	@Transactional
+	@Test
+	public void testDeleteQueryMethods() {
+		memoRepository.deleteMemoByMnoLessThan(10L);
+	}
+	
+	@Test
+	public void testGetListDesc() {
+		List<Memo> list = memoRepository.getListDesc();
+		for(Memo memo : list) {
+			System.out.println(memo);
+		}
+	}
+	
+	//@Commit
+	//@Transactional
+	@Test
+	public void testupdateMemoText() {
+		memoRepository.updateMemoText(10L, "bbbbbbbbbbb");
+	}
+
+
+	//
+	@Test
+	public void testgetListWithQueryObject() {
+		Pageable pageable = PageRequest.of(0, 10);
+		Page<Object[]> result = memoRepository.getListWithQueryObject(10L, pageable);
+		//System.out.println(result);
+		//result.get().forEach(memo -> System.out.println(memo));
+	}
 }
