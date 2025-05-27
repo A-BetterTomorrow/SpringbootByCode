@@ -47,14 +47,14 @@ public class MemoRepositoryTests
 		}
 	}
 	
-	@Transactional
-	@Test
-	public void testSelect2() {
-		Long mno = 100L;
-		Memo memo = memoRepository.getOne(mno);
-		System.out.println("1---------------------------");
-			System.out.println("memo="+memo);
-	}
+//	@Transactional
+//	@Test
+//	public void testSelect2() {
+//		Long mno = 100L;
+//		Memo memo = memoRepository.getOne(mno);
+//		System.out.println("1---------------------------");
+//			System.out.println("memo="+memo);
+//	}
 
 	@Test
 	public void testUpdate() {

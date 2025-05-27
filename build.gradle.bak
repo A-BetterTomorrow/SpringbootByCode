@@ -19,9 +19,7 @@ configurations {
 		extendsFrom annotationProcessor
 	}
 }
-compileJava {
-    options.compilerArgs += ['-parameters']
-}
+
 repositories {
 	mavenCentral()
 }
@@ -43,29 +41,8 @@ dependencies {
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	implementation("org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.4.RELEASE")
-	
-//querydsl dependencies 추가(스프링부트 3.0 이상)
-	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
-	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
-	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
-	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
-}
-
-def querydslSrcDir = 'src/main/generated'
-clean {
-	delete file(querydslSrcDir)
-}
-tasks.withType(JavaCompile) {
-	options.generatedSourceOutputDirectory = file(querydslSrcDir)
-}
-sourceSets {
-    main {
-        java {
-            srcDirs = ["$projectDir/src/main/java", "$projectDir/src/main/generated"]
-        }
-    }
 }
